@@ -1295,7 +1295,7 @@ command:
 ## API for metrics (experimental)
 {: #envappmetricsapi}
 
-You can use two experimental APIs to gather metrics about your environment or applications. These APIs return an array of data points for the metrics that you requested over the time that you specified.
+You can use three experimental APIs to gather metrics about your environment or applications. These APIs return an array of data points for the metrics that you requested over the time that you specified.
 
 The Metrics APIs that are described in the following sections can be accessed from the region-specific endpoint, for example: 
 
@@ -1306,6 +1306,7 @@ The Metrics APIs that are described in the following sections can be accessed fr
 
 1. A user can make up to 200 API requests for metrics an hour.
 2. Each API request returns up to 200 data points per request. If more data is available, a URL is provided in the response for loading the next set of data.
+3. Each API request requires a user to have at least Basic Access to the Administration Console.  Additional permissions might be required, as specified below.
 
 ## Gathering metrics about your environment 
 
@@ -1314,6 +1315,8 @@ You can use the experimental environment API to gather high-level environment in
  ### Environment endpoints 
  
 You can use the following endpoint to invoke this API command:  `/api/v1/env`
+
+**Note**: Only users with the Basic Access to the Administration Console (`ops.login`) can access this endpoint
 
 ### Environment metrics query parameters
 
@@ -1347,6 +1350,22 @@ The following sections provide the data format.
 {
   "sample_time": 1477494000000,
   "memory": {
+    "total": {
+      "physical": {
+        "total_gb": 1728,
+        "used": {
+          "value_gb": 673.68,
+          "percent": 38.99
+        }
+      },
+      "allocated": {
+        "reserved_gb": 3456,
+        "total_allocated": {
+          "value_gb": 2575.18,
+          "percent": 74.51
+        }
+      },
+    },
     "cell": {
       "physical": {
         "total_gb": 864,
@@ -1416,6 +1435,22 @@ The following sections provide the data format.
 {
   "sample_time": 1477494000000,
   "disk": {
+    "total": {
+      "physical": {
+        "total_gb": 16200,
+        "used": {
+          "value_gb": 1614,
+          "percent": 9.96
+        }
+      },
+      "allocated": {
+        "reserved_gb": 32400,
+        "total_allocated": {
+          "value_gb": 3979,
+          "percent": 12.28
+        }
+      },
+    },
     "cell": {
       "physical": {
         "total_gb": 8100,
@@ -1485,11 +1520,14 @@ The following sections provide the data format.
 {
   "sample_time": 1477494000000,
   "cpu": {
+    "total": {
+      "average_percent_cpu_used": 14.725
+    },
     "cell": {
-      "average_percent_cpu_used": 27.288461538461544
+      "average_percent_cpu_used": 19
     },
     "dea": {
-      "average_percent_cpu_used": 27.288461538461544
+      "average_percent_cpu_used": 10.45
     },
     "cpu_by_container": [
       {
@@ -1509,16 +1547,16 @@ The following sections provide the data format.
         "wait_percent": "0.0"
       },
       {
-        "name": "dea_next/2",
-        "type": "dea",
+        "name": "cell/1",
+        "type": "cell",
         "ip": "169.53.230.49",
         "sys_percent": "5.3",
         "user_percent": "1.9",
         "wait_percent": "0.0"
       },
       {
-        "name": "dea_next/3",
-        "type": "dea",
+        "name": "cell/2",
+        "type": "cell",
         "ip": "169.44.109.231",
         "sys_percent": "8.2",
         "user_percent": "22.6",
@@ -1574,8 +1612,8 @@ The following sections provide the data format.
       }
       ],
         "bandwidth": {
-        "in_mbps": 10855,
-        "out_mbps": 38090
+        "in_kbps": 10855,
+        "out_kbps": 38090
       }
   }
 }
