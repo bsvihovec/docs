@@ -1316,7 +1316,7 @@ You can use the experimental environment API to gather high-level environment in
  
 You can use the following endpoint to invoke this API command:  `/api/v1/env`
 
-**Note**: Only users with the Basic Access to the Administration Console (`ops.login`) can access this endpoint
+**Note**: One of the following permissions are required to access these endpoints: **Basic Access**, **User Read**, **User Write**, or **Superuser**
 
 ### Environment metrics query parameters
 
@@ -1646,6 +1646,58 @@ The following sections provide the data format.
 ```
 {: screen}
 
+## Gathering metrics about your organizations
+
+Data is recorded for all organizations approximately every hour. A request for a particular metric returns information for all organizations in each data sample in the time period you specify, which is sorted in descending order by the requested metric. For example, requesting all organizations by memory over a 6-hour time period in an environment that has 200 apps returns 1200 records, 200 at a time.
+
+To reduce the amount of information that is returned for each data sample in the requested time period, you can specify a count option. Using the previous example and adding a count option of 5 returns 30 records that represent the top 5 organizations by memory for each data sample.
+
+### Applications endpoints 
+
+You can use the following endpoints to invoke this API command:
+* `/api/v1/app/memory/physical`
+* `/api/v1/app/memory/reserved`
+* `/api/v1/app/disk/physical`
+* `/api/v1/app/disk/reserved`
+
+**Note**: One of the following permissions are required to access these endpoints: **User Read**, **User Write**, or **Superuser**
+
+### Organizations query parameters
+ 
+Use the following query parameters to gather metrics for your organizations:
+
+<dl class="parml">
+<dt class="pt dlterm">startTime</dt>
+<dd class="pd">The earliest point in time from which data is returned. If no startTime is specified, the earliest available data point is included. For example, to gather data between 2 PM and 5 PM, specify a startTime of 2 PM.</dd>
+<dt class="pt dlterm">endTime</dt>
+<dd class="pd">The latest point in time from which data is returned. If no endTime is specified, the most recent data point is used. For example, to gather data between 2 PM and 5 PM, specify an endTime of 5 PM.</dd>
+<dt class="pt dlterm">count</dt>
+<dd class="pd">The number of records to return within each data sample.
+</dd>
+<dt class="pt dlterm">minValue</dt>
+<dd class="pd">The smallest value to return for the specified metric.  If no minValue is specified, all values are returned.  For example, to gather organizaitons using at least 20000 bytes of physical memory, specify a minValue of 20000.
+</dd>
+</dl>
+
+The following example gathers metrics about your organizations:
+
+```
+curl -b ./cookies.txt --header "Accept: application/json" https://console.<region>.bluemix.net/admin/metrics/api/v1/org/memory/physical?count=5&startTime=2016-12-02T16:54:09.467Z
+```
+{: codeblock}
+
+### Organizations response format
+
+```
+{
+   docs: [],
+   next_url:
+}
+```
+{: screen}
+
+Each document that is returned represents the requested metrics for an organization in each data sample, at the point in time of the request.
+
 ## Gathering metrics about your applications
 
 Data is recorded for all applications approximately every hour. A request for a particular metric returns information for all apps in each data sample in the time period you specify, which is sorted in descending order by the requested metric. For example, requesting all apps by CPU over a 6-hour time period in an environment that has 200 apps returns 1200 records, 200 at a time.
@@ -1661,6 +1713,7 @@ You can use the following endpoints to invoke this API command:
 * `/api/v1/app/disk/physical`
 * `/api/v1/app/disk/reserved`
 
+**Note**: One of the following permissions are required to access these endpoints: **User Read**, **User Write**, or **Superuser**
 
 ### Applications query parameters
  
