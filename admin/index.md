@@ -57,7 +57,7 @@ You can view notifications for your local or dedicated environment to monitor th
 |-----------------|-------------------|
 | Maintenance updates | To see a full list and history of your pending and complete notifications, click **ADMINISTRATION &gt; SYSTEM INFORMATION** &gt; *Number* **pending**. You are also alerted about scheduled disruptive maintenance update events on the Status page. Click **Support** &gt; **Status**. You can extend the notification capability by setting up a subscription that sends an email to recipients of your choice. Or you can set up a subscription that uses webhooks to integrate the notifications from the Administration page with a web service of your choice.|
 | Critical incidents | You are alerted about critical incidents on the Status page. Click **Support** &gt; **Status**. You can extend the notification capability by setting up a notification subscription that sends an email to a recipient of your choice. Or you can set up a subscription that uses webhooks to integrate the notifications from the Administration page with a web service of your choice.  |  
-| Threshold events | You can set up a notification subscription that sends an email to a recipient of your choice when resource thresholds for physical disk, physical memory, reserved disk, or reserved memory are reached in your environment. Or, you can set up a subscription that uses webhooks to integrate the notifications with a web service of your choice.  |  
+| Threshold events | You can set up a notification subscription that sends an email to a recipient of your choice when thresholds for organization quota, physical disk, physical memory, reserved disk, or reserved memory are reached in your environment. Or, you can set up a subscription that uses webhooks to integrate the notifications with a web service of your choice.  |  
 | {{site.data.keyword.Bluemix_notm}} Status | You can always view the latest status for the platform, services, and your {{site.data.keyword.Bluemix_notm}} instance on the Status page. Click **Support** &gt; **Status**.  |
 {: caption="Table 2. Event types and notifications methods" caption-side="top"}
 
@@ -109,7 +109,9 @@ To create an email or webhook subscription from the **Notification Subscriptions
 | Enabled | Select the option to enable the email notifications. Clear the selection to disable the email notification. Subscriptions are enabled by default. |
 | Type | Select **Email**. |
 | Event | Select **Threshold**. |
-| Threshold | Select the type of threshold you want to be notified about: Physical Disk, Physical Memory, Reserved Disk, or Reserved Memory. |
+| Threshold | Select the type of threshold you want to be notified about: Organization Quota, Physical Disk, Physical Memory, Reserved Disk, or Reserved Memory. 
+
+**Note:** An Organization Quota threshold notification includes all organizations that have crossed the specified threshold percentage at the time the notification was generated.  Furthermore, the three resources that make up an organizations quota; reserved memory, services, and routes, are considered independently when determining if an organization quota notification should be sent.  For example, if the amount of reserved memory used by an organization crosses 50% of the organization's quota, an Organization Quota threshold configured with a value of 50% would result in a notification being sent.  If the number of services used by the same organization crosses 50% of the organization's quota, at a later point in time, while the amount of memory used remains unchanged, the same Organization Quota threshold would also result in a notification being sent.|
 | Threshold Direction | Select the direction that you want the data to be moving in, either Ascending or Descending, when it passes the Notify When Crossing value that you set. For example, if the Notify When Crossing value is 50%, and the direction is descending, you are notified only if the usage percentage goes from 50% or more to less than 50%.  If you set the direction to ascending, you would be notified when the usage percentage goes from less than 50% to more than 50%.   |
 | Notify When Crossing Above (%) | Enter the threshold percentage at which you want to be notified. If you chose the Ascending property in the Threshold Direction field, the email notification is sent when the threshold rises above this percentage. |
 | Notify When Crossing Below (%) | Enter the threshold percentage at which you want to be notified. If you chose the Descending property in the Threshold Direction field, the email notification is sent when the threshold drops beneath this percentage. |
@@ -156,7 +158,9 @@ If you don't want to wait 6 hours for the notification to be sent when the thres
 | Enabled | Select the option to enable the notification. Clear the selection to disable the notification. Subscriptions are enabled by default. |
 | Type | Select **Webhook**. |
 | Event | Select **Threshold**. |
-| Threshold | Select the type of threshold you want to be notified about: Physical Disk,  Physical Memory, Reserved Disk, or Reserved Memory. |
+| Threshold | Select the type of threshold you want to be notified about: Organization Quota, Physical Disk,  Physical Memory, Reserved Disk, or Reserved Memory. 
+
+**Note:** An Organization Quota threshold notification includes all organizations that have crossed the specified threshold percentage at the time the notification was generated.  Furthermore, the three resources that make up an organizations quota; reserved memory, services, and routes, are considered independently when determining if an organization quota notification should be sent.  For example, if the amount of reserved memory used by an organization crosses 50% of the organization's quota, an Organization Quota threshold configured with a value of 50% would result in a notification being sent.  If the number of services used by the same organization crosses 50% of the organization's quota, at a later point in time, while the amount of memory used remains unchanged, the same Organization Quota threshold would also result in a notification being sent.|
 | Threshold Direction | Select whether you want to see the threshold data in Ascending order or Descending order.  |
 | Notify When Crossing Below (%) | If you selected the **Descending** **Threshold Direction**, enter the threshold percentage at which you want to be notified. When the threshold drops beneath this percentage, the webhook notification is sent. |
 | Notify When Crossing Above (%) | If you selected the **Ascending** **Threshold Direction**, enter the threshold percentage at which you want to be notified. When the threshold rises above this percentage, the webhook notification is sent. |
@@ -191,6 +195,7 @@ If you don't want to wait 6 hours for the notification to be sent when the thres
 
 | **IBM value** | **Description** | **Event type** |
 |----------------|----------------|------------------------|
+| {{content.org_quota}} | Organization quota threshold | Threshold |
 | {{content.physical_disk}} | Physical disk threshold | Threshold |
 | {{content.physical_memory}} | Physical memory threshold | Threshold |  
 | {{content.reserved_disk}} | Reserved disk threshold | Threshold |
